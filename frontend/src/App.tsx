@@ -1,35 +1,37 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Layout from './layout/Layout';
+import { routes } from './config/routesConfig';
 
-function App() {
-  const [count, setCount] = useState(0)
+import Dashboard from './pages/Dashboard';
+import Trades from './pages/Trades';
+import OpenTrades from './pages/OpenTrades';
+import Signals from './pages/Signals';
+import Accounts from './pages/Accounts';
+import TradingAI from './pages/TradingAI';
 
+const components: { [key: string]: React.ComponentType } = {
+  Dashboard,
+  Trades,
+  OpenTrades,
+  Signals,
+  Accounts,
+  TradingAI,
+};
+
+export default function App() {
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <Router>
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          {routes.map(({ path, title }) => {
+            const key = title.replace(/\s/g, '');
+            const Component = components[key];
+            return <Route key={path} path={path} element={<Component />} />;
+          })}
+          <Route path="*" element={<div className="text-red-500 p-6 text-xl">404 - Pagina niet gevonden</div>} />
+        </Route>
+      </Routes>
+    </Router>
+  );
 }
-
-export default App
