@@ -1,3 +1,12 @@
+#!/bin/bash
+
+echo "🧠 Pagina TheAIAnalyzer.jsx wordt aangemaakt..."
+
+FRONTEND_DIR="./frontend"
+PAGES_DIR="$FRONTEND_DIR/src/pages"
+mkdir -p "$PAGES_DIR"
+
+cat > "$PAGES_DIR/TheAIAnalyzer.jsx" <<'EOF'
 import React from 'react';
 
 export default function TheAIAnalyzer() {
@@ -67,3 +76,6 @@ export default function TheAIAnalyzer() {
   );
 }
 
+EOF
+
+echo "✅ Pagina succesvol aangemaakt: frontend/src/pages/TheAIAnalyzer.jsx"
