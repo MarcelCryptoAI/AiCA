@@ -1,3 +1,12 @@
+#!/bin/bash
+
+echo "⚙️ Genereer Settings-pagina met API key en secret key velden..."
+
+FRONTEND_DIR="./frontend"
+PAGES_DIR="$FRONTEND_DIR/src/pages"
+mkdir -p "$PAGES_DIR"
+
+cat > "$PAGES_DIR/Settings.jsx" <<'EOF'
 import React, { useState, useEffect } from 'react';
 
 export default function Settings() {
@@ -91,3 +100,6 @@ export default function Settings() {
     </div>
   );
 }
+EOF
+
+echo "✅ Settings.jsx klaar met alle API velden en connect-knoppen!"

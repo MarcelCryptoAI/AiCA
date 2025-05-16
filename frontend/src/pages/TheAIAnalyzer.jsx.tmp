@@ -1,0 +1,38 @@
+import React, { useState } from 'react';
+import DropContainer from '../components/DropContainer';
+import IndicatorCard from '../components/IndicatorCard';
+
+export default function TheAIAnalyzer() {
+  const [signalSource, setSignalSource] = useState([]);
+  const [activeIndicators, setActiveIndicators] = useState([]);
+  const [inactiveIndicators, setInactiveIndicators] = useState([
+    { id: 'RSI', name: 'RSI', winrate: 72, ibs: 65, manuallyDisabled: false },
+    { id: 'EMA1', name: 'EMA (5)', winrate: 80, ibs: 85, manuallyDisabled: false },
+    { id: 'EMA2', name: 'EMA (20)', winrate: 55, ibs: 60, manuallyDisabled: false },
+    { id: 'WMA1', name: 'WMA (10)', winrate: 68, ibs: 50, manuallyDisabled: true },
+    { id: 'VWMA1', name: 'VWMA (10)', winrate: 45, ibs: 30, manuallyDisabled: false }
+  ]);
+
+  return (
+    <div className="p-4 text-white space-y-6">
+      <h1 className="text-3xl font-bold">AI Crypto Analyzer</h1>
+
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-8">
+        <DropContainer
+          title="🎯 Signaalbron"
+          items={signalSource}
+          setItems={setSignalSource}
+          max={1}
+        />
+        <DropContainer
+          title="✅ Actieve Bevestigers"
+          items={activeIndicators}
+          setItems={setActiveIndicators}
+        />
+        <DropContainer
+          title="⛔ Inactief"
+          items={inactiveIndicators}
+          setItems={setInactiveIndicators}
+          isInactive
+        />
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-12">        <DropContainer          title="🎯 Signaalbron"          items={{signalSource}}          setItems={{setSignalSource}}          max={{1}}        />        <DropContainer          title="✅ Actieve Bevestigers"          items={{activeIndicators}}          setItems={{setActiveIndicators}}        />        <DropContainer          title="⛔ Inactief"          items={{inactiveIndicators}}          setItems={{setInactiveIndicators}}          isInactive        />      </div>

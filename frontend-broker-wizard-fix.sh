@@ -1,3 +1,9 @@
+#!/bin/bash
+
+echo "🧠 Werk BrokerAccounts pagina bij met wizard + API velden + beheeracties..."
+
+# BrokerAccounts.jsx vervangen
+cat > ./frontend/src/pages/BrokerAccounts.jsx << 'EOF'
 import React, { useState, useEffect } from 'react';
 
 export default function BrokerAccounts() {
@@ -10,35 +16,7 @@ export default function BrokerAccounts() {
     const stored = JSON.parse(localStorage.getItem('brokerAccounts') || '[]');
     setAccounts(stored);
     if (stored.length === 0) setShowWizard(true);
-    else updateBalances(stored);
   }, []);
-
-  const updateBalances = async (accList) => {
-    const updated = await Promise.all(
-      accList.map(async acc => {
-        try {
-          const res = await fetch("/api/bybit/balance", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ apiKey: acc.apiKey, apiSecret: acc.apiSecret })
-          });
-          const json = await res.json();
-          const equity = parseFloat(json?.result?.list?.[0]?.totalEquity || 0);
-const available = parseFloat(json?.result?.list?.[0]?.totalAvailableBalance || 0);
-return {
-  ...acc,
-  total: equity,
-  available: available
-};
-
-        } catch {
-          return { ...acc, total: 0, available: 0 };
-        }
-      })
-    );
-    setAccounts(updated);
-    localStorage.setItem("brokerAccounts", JSON.stringify(updated));
-  };
 
   const handleInputChange = (broker, field, value) => {
     setAccountInputs(prev => ({
@@ -61,13 +39,12 @@ return {
       broker,
       type: broker.includes('Derivatives') ? 'Derivatives' : 'Spot',
       status: 'Active',
-      available: 0,
-      total: 0
+      available: 0.04,
+      total: 0.04
     }));
     localStorage.setItem('brokerAccounts', JSON.stringify(newAccounts));
     setAccounts(newAccounts);
     setShowWizard(false);
-    updateBalances(newAccounts);
   };
 
   const toggleStatus = (i) => {
@@ -138,10 +115,10 @@ return {
         <div className="bg-gray-800 p-4 rounded shadow mt-4">
           <h2 className="text-xl font-semibold text-cyan-400 mb-4">Accounts</h2>
           <div className="overflow-x-auto">
-            <table className="w-full text-sm text-left">
+            <table className="w-full text-sm">
               <thead className="text-gray-300 border-b border-gray-600">
                 <tr>
-                  <th className="py-2">Naam</th>
+                  <th className="text-left py-2">Name</th>
                   <th>Status</th>
                   <th>Total</th>
                   <th>Available</th>
@@ -152,11 +129,7 @@ return {
                 {accounts.map((acc, i) => (
                   <tr key={i} className="text-gray-100 border-b border-gray-700">
                     <td className="py-2">{acc.name}</td>
-                    <td>
-                      <span className={"text-" + (acc.status === "Active" ? "green" : "red") + "-400"}>
-                        {acc.status}
-                      </span>
-                    </td>
+                    <td><span className={\`text-\${acc.status === 'Active' ? 'green' : 'red'}-400\`}>{acc.status}</span></td>
                     <td>${acc.total.toFixed(2)}</td>
                     <td>${acc.available.toFixed(2)}</td>
                     <td className="space-x-2">
@@ -177,3 +150,6 @@ return {
     </div>
   );
 }
+EOF
+
+echo "✅ Wizard, API inputs en beheerknoppen voor broker accounts zijn ingesteld!"

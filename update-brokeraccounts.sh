@@ -1,3 +1,8 @@
+#!/bin/bash
+
+echo "🔧 Bijwerken van BrokerAccounts.jsx met correcte balance parsing..."
+
+cat > ./frontend/src/pages/BrokerAccounts.jsx << 'EOF'
 import React, { useState, useEffect } from 'react';
 
 export default function BrokerAccounts() {
@@ -24,13 +29,12 @@ export default function BrokerAccounts() {
           });
           const json = await res.json();
           const equity = parseFloat(json?.result?.list?.[0]?.totalEquity || 0);
-const available = parseFloat(json?.result?.list?.[0]?.totalAvailableBalance || 0);
-return {
-  ...acc,
-  total: equity,
-  available: available
-};
-
+          const available = parseFloat(json?.result?.list?.[0]?.totalAvailableBalance || 0);
+          return {
+            ...acc,
+            total: equity,
+            available: available
+          };
         } catch {
           return { ...acc, total: 0, available: 0 };
         }
@@ -177,3 +181,6 @@ return {
     </div>
   );
 }
+EOF
+
+echo "✅ BrokerAccounts.jsx bijgewerkt. Start nu je frontend opnieuw: cd frontend && npm run dev"

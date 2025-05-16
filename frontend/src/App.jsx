@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import TopBar from "./components/TopBar";
 import Sidebar from './components/Sidebar';
 import Dashboard from './pages/Dashboard';
 import OpenTrades from './pages/OpenTrades';
@@ -22,6 +23,7 @@ import Billing from './pages/Billing';
 export default function App() {
   return (
     <Router>
+      <TopBar />
       <div className="flex">
         <Sidebar />
         <div className="flex-grow bg-gray-900 min-h-screen p-4">

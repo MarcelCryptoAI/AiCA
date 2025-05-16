@@ -1,3 +1,9 @@
+#!/bin/bash
+
+echo "💼 Werk BrokerAccounts.jsx bij: live balans ophalen en tabel uitlijnen"
+
+# Overschrijft BrokerAccounts.jsx met balans API en nette uitlijning
+cat > ./frontend/src/pages/BrokerAccounts.jsx << 'EOF'
 import React, { useState, useEffect } from 'react';
 
 export default function BrokerAccounts() {
@@ -23,14 +29,12 @@ export default function BrokerAccounts() {
             body: JSON.stringify({ apiKey: acc.apiKey, apiSecret: acc.apiSecret })
           });
           const json = await res.json();
-          const equity = parseFloat(json?.result?.list?.[0]?.totalEquity || 0);
-const available = parseFloat(json?.result?.list?.[0]?.totalAvailableBalance || 0);
-return {
-  ...acc,
-  total: equity,
-  available: available
-};
-
+          const info = json.result?.list?.[0];
+          return {
+            ...acc,
+            total: parseFloat(info?.totalEquity || 0),
+            available: parseFloat(info?.totalAvailableBalance || 0)
+          };
         } catch {
           return { ...acc, total: 0, available: 0 };
         }
@@ -177,3 +181,6 @@ return {
     </div>
   );
 }
+EOF
+
+echo "✅ BrokerAccounts.jsx bijgewerkt met realtime saldo + nette linker uitlijning."
