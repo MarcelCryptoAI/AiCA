@@ -1,116 +1,129 @@
 import React, { useEffect, useState } from 'react';
-import { fetchClosedTrades } from '../services/bybitService';
-import TradeDetailsDrawer from '../components/TradeDetailsDrawer';
-import ClosedTradesStats from '../components/ClosedTradesStats';
 
 export default function ClosedTrades() {
   const [trades, setTrades] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [selectedTrade, setSelectedTrade] = useState(null);
+  const [stats, setStats] = useState({ winRate: 0, roi: 0, totalPnl: 0 });
 
   useEffect(() => {
-    const accounts = JSON.parse(localStorage.getItem("brokerAccounts") || "[]");
-    const activeAccount = accounts.find(acc => acc.status === "Active");
+    const loadTrades = async () => {
+      setLoading(true);
+      const accounts = JSON.parse(localStorage.getItem("brokerAccounts") || "[]");
 
-    if (!activeAccount) {
-      console.warn("⚠️ Geen actieve broker account gevonden.");
+      const allTrades = await Promise.all(
+        accounts.map(async (acc) => {
+          if (!acc.apiKey || !acc.apiSecret) return [];
+
+          try {
+            const res = await fetch('/api/bybit/closed-trades', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                apiKey: acc.apiKey,
+                apiSecret: acc.apiSecret
+              })
+            });
+
+            const json = await res.json();
+            const rawList = json?.result?.list || json?.trades || [];
+            const parsedList = rawList.map((entry) =>
+              typeof entry === "string" ? JSON.parse(entry) : entry
+            );
+
+            return parsedList.map(t => ({ ...t, accountName: acc.name }));
+          } catch {
+            return [];
+          }
+        })
+      );
+
+      const flatTrades = allTrades.flat();
+      const totalPnl = flatTrades.reduce((sum, t) => sum + parseFloat(t.realizedPnl || "0"), 0);
+      const totalCost = flatTrades.reduce((sum, t) => {
+        const entry = parseFloat(t.entryPrice || "0");
+        const qty = parseFloat(t.qty || "0");
+        return sum + (entry * qty);
+      }, 0);
+      const roi = totalCost > 0 ? (totalPnl / totalCost) * 100 : 0;
+      const wins = flatTrades.filter(t => parseFloat(t.realizedPnl || "0") > 0).length;
+      const winRate = flatTrades.length > 0 ? (wins / flatTrades.length) * 100 : 0;
+
+      setTrades(flatTrades);
+      setStats({ totalPnl, roi, winRate });
       setLoading(false);
-      return;
-    }
+    };
 
-    const { apiKey, apiSecret } = activeAccount;
-
-    fetchClosedTrades(apiKey, apiSecret)
-      .then(data => {
-        setTrades(data.result?.list || []);
-        setLoading(false);
-      })
-      .catch(err => {
-        console.error("❌ Fout bij ophalen closed trades:", err);
-        setLoading(false);
-      });
+    loadTrades();
   }, []);
 
-  const formatDate = (timestamp) => {
-    const date = new Date(Number(timestamp));
-    return isNaN(date.getTime()) ? "—" : date.toLocaleString("en-US", {
-      year: 'numeric', month: 'short', day: 'numeric',
-      hour: '2-digit', minute: '2-digit'
-    });
-  };
-
-  const calcPercentage = (entry, exit, side) => {
-    const e = parseFloat(entry);
-    const x = parseFloat(exit);
-    if (!e || !x || e === 0) return 0;
-    const direction = side === 'Buy' ? 1 : -1;
-    return ((x - e) / e) * direction * 100;
-  };
-
   return (
-    <div className="p-6 text-white space-y-6">
-      <h1 className="text-3xl font-bold">Closed Trades</h1>
+    <div className="p-6 text-white">
+      <h1 className="text-3xl font-bold mb-6">Closed Trades</h1>
 
-      <ClosedTradesStats trades={trades} />
-
-      {loading ? (
-        <p>Laden...</p>
-      ) : (
-        <div className="overflow-x-auto">
-          <table className="w-full text-sm text-left border-collapse">
-            <thead className="text-cyan-400 border-b border-gray-600 text-xs uppercase">
-              <tr>
-                <th className="py-2 text-left">Symbol</th>
-                <th className="py-2 text-left">Account</th>
-                <th className="py-2 text-right">Qty</th>
-                <th className="py-2 text-right">Side</th>
-                <th className="py-2 text-right">Entry</th>
-                <th className="py-2 text-right">Exit</th>
-                <th className="py-2 text-right">% PNL</th>
-                <th className="py-2 text-right">PNL</th>
-                <th className="py-2 text-right">Time</th>
-                <th className="py-2 text-right">Details</th>
-              </tr>
-            </thead>
-            <tbody>
-              {trades.map((t, i) => {
-                const entry = parseFloat(t.entryPrice || t.avgEntryPrice || 0);
-                const exit = parseFloat(t.avgExitPrice || 0);
-                const percent = calcPercentage(entry, exit, t.side);
-                const color = percent >= 0 ? "text-green-400" : "text-red-400";
-                const sideLabel = t.side === "Buy" ? "Long" : "Short";
-                const sideColor = t.side === "Buy" ? "text-green-400" : "text-red-400";
-
-
-                return (
-                  <tr key={i} className="border-b border-gray-800 hover:bg-gray-800 transition">
-                    <td className="py-2 font-semibold">
-
-                      {t.symbol}
-                    </td>
-                    <td className="py-2 text-left">
-                      {JSON.parse(localStorage.getItem("brokerAccounts") || "[]").find(acc => acc.status === "Active")?.name || "Onbekend"}
-                    </td>
-                    <td className="py-2 text-right">{t.qty}</td>
-                    <td className={`py-2 text-right font-medium ${sideColor}`}>{sideLabel}</td>
-                    <td className="py-2 text-right">{entry?.toFixed(5)}</td>
-                    <td className="py-2 text-right">{exit?.toFixed(5)}</td>
-                    <td className={`py-2 text-right font-medium ${color}`}>{percent.toFixed(2)}%</td>
-                    <td className={`py-2 text-right font-medium ${color}`}>${Math.abs(parseFloat(t.closedPnl)).toFixed(2)}</td>
-                    <td className="py-2 text-right">{formatDate(t.createdTime)}</td>
-                    <td className="py-2 text-right">
-                      <button onClick={() => setSelectedTrade(t)} className="text-cyan-400 hover:underline text-xs">
-                        Trade details
-                      </button>
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
+      <div className="grid grid-cols-3 gap-4 mb-8">
+        <div className="bg-gray-800 p-4 rounded shadow text-center">
+          <div className="text-sm text-gray-400">Winst/Verlies Ratio</div>
+          <div className="text-2xl font-bold">{stats.winRate.toFixed(1)}%</div>
         </div>
-      )}
-      <TradeDetailsDrawer trade={selectedTrade} onClose={() => setSelectedTrade(null)} />
+        <div className="bg-gray-800 p-4 rounded shadow text-center">
+          <div className="text-sm text-gray-400">ROI</div>
+          <div className={`text-2xl font-bold ${stats.roi >= 0 ? 'text-green-400' : 'text-red-400'}`}>
+            {stats.roi >= 0 ? '+' : ''}{stats.roi.toFixed(2)}%
+          </div>
+        </div>
+        <div className="bg-gray-800 p-4 rounded shadow text-center">
+          <div className="text-sm text-gray-400">Totale P&L</div>
+          <div className={`text-2xl font-bold ${stats.totalPnl >= 0 ? 'text-green-400' : 'text-red-400'}`}>
+            {stats.totalPnl >= 0 ? '+' : ''}${stats.totalPnl.toFixed(2)}
+          </div>
+        </div>
+      </div>
+
+      <div className="overflow-x-auto bg-gray-900 rounded shadow">
+        <table className="min-w-full text-sm">
+          <thead className="bg-gray-800 text-gray-400 border-b border-gray-700 text-left">
+            <tr>
+              <th className="p-3">Account</th>
+              <th>Symbol</th>
+              <th>Side</th>
+              <th>Qty</th>
+              <th>Entry</th>
+              <th>Exit</th>
+              <th>PnL</th>
+              <th>Profit %</th>
+            </tr>
+          </thead>
+          <tbody>
+            {trades.map((t, i) => {
+              const entry = parseFloat(t.entryPrice || "0");
+              const exit = parseFloat(t.exitPrice || "0");
+              const qty = parseFloat(t.qty || "0");
+              const pnl = parseFloat(t.realizedPnl || "0");
+              const totalCost = entry * qty;
+              const profitPct = totalCost > 0 ? (pnl / totalCost) * 100 : 0;
+              const side = t.side === 'Buy' ? 'Long' : 'Short';
+              const pnlColor = pnl >= 0 ? 'text-green-400' : 'text-red-400';
+
+              return (
+                <tr key={i} className="border-b border-gray-800 text-white">
+                  <td className="p-3">{t.accountName}</td>
+                  <td>{t.symbol}</td>
+                  <td className={side === 'Long' ? 'text-green-300' : 'text-red-300'}>{side}</td>
+                  <td>{qty > 0 ? qty : '-'}</td>
+                  <td>{entry > 0 ? entry.toFixed(4) : '-'}</td>
+                  <td>{exit > 0 ? exit.toFixed(4) : '-'}</td>
+                  <td className={pnlColor}>{isNaN(pnl) ? '-' : `${pnl >= 0 ? '+' : ''}$${pnl.toFixed(2)}`}</td>
+                  <td className={profitPct >= 0 ? 'text-green-400' : 'text-red-400'}>
+                    {isNaN(profitPct) ? '-' : `${profitPct >= 0 ? '+' : ''}${profitPct.toFixed(2)}%`}
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+        {loading && <div className="p-4 text-gray-400">Bezig met laden...</div>}
+        {!loading && trades.length === 0 && <div className="p-4 text-gray-400">Geen trades gevonden.</div>}
+      </div>
     </div>
   );
 }
