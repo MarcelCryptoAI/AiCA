@@ -24,13 +24,12 @@ export default function BrokerAccounts() {
           });
           const json = await res.json();
           const equity = parseFloat(json?.result?.list?.[0]?.totalEquity || 0);
-const available = parseFloat(json?.result?.list?.[0]?.totalAvailableBalance || 0);
-return {
-  ...acc,
-  total: equity,
-  available: available
-};
-
+          const available = parseFloat(json?.result?.list?.[0]?.totalAvailableBalance || 0);
+          return {
+            ...acc,
+            total: equity,
+            available: available
+          };
         } catch {
           return { ...acc, total: 0, available: 0 };
         }
