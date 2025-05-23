@@ -5,9 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1f16f79c-cac3-4df4-bc24-e43427528656" name="Changes" comment="Commit met werkende accounts broker">
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/BrokerAccounts.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/BrokerAccounts.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/ClosedTrades.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/ClosedTrades.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/.package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/.package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -48,7 +49,7 @@
     "RunOnceActivity.git.unshallow": "true",
     "SHELLCHECK.PATH": "/Users/marcelstuivenberg/Library/Application Support/JetBrains/PyCharm2025.1/plugins/Shell Script/shellcheck",
     "git-widget-placeholder": "master",
-    "last_opened_file_path": "/Users/marcelstuivenberg/Library/Mobile Documents/com~apple~CloudDocs/Ai Crypto Analyer/frontend",
+    "last_opened_file_path": "/Users/marcelstuivenberg/Library/Mobile Documents/com~apple~CloudDocs/AiCA",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -102,6 +103,7 @@
       <workItem from="1747262455236" duration="19221000" />
       <workItem from="1747316782725" duration="1259000" />
       <workItem from="1747319217108" duration="82602000" />
+      <workItem from="1747962467007" duration="828000" />
     </task>
     <task id="LOCAL-00001" summary="First Commit and Push">
       <option name="closed" value="true" />
