@@ -6,6 +6,53 @@
   <component name="ChangeListManager">
     <list default="true" id="1f16f79c-cac3-4df4-bc24-e43427528656" name="Changes" comment="Commit met werkende accounts broker">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/add-global-topbar-credits.sh" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/add_coin_icons_to_closed_trades.sh" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/add_router_layout.sh" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bybit-log-to-file.sh" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/debug-log-bybit-balance.sh" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/extend-ai-analyzer-dnd-safe.sh" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/extend-ai-analyzer-dnd.sh" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fix-BrokerAccounts.jsx.sh" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fix-backend-uvicorn.sh" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fix-bybit-service.sh" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fix-bybit-signature.sh" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fix-font-cleanup.sh" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fix-frontend-balance-parse.sh" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fix-main-router.sh" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/fix-topbar-import-app.sh" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/force-remove-old-fonts.sh" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend-broker-wizard-fix-fixed.sh" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend-broker-wizard-fix.sh" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend-trades-brokers-fix.sh" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend-update-broker-balances.sh" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/install-account-popup.sh" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/patch-balance-error-handling.sh" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/restore-complete-ai-analyzer.sh" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/restore-full-layout.sh" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/restore-ui.sh" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/setup-ai-analyzer-dnd.sh" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/setup-ai-analyzer-page.sh" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/setup-and-run.sh" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/setup-backend-main-file.sh" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/setup-broker-accounts.sh" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/setup-bybit-balance-api.sh" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/setup-bybit-router.sh" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/setup-complete-pages.sh" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/setup-full-sidebar-pages.sh" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/setup-pages-and-layout.sh" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/setup-routes-layout.sh" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/setup-settings-api-fixed.sh" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/setup-trades-pages-full.sh" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/setup-trades-pages.sh" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/setup.sh" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/setup_crypto_webapp.sh" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/setup_mac.sh" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/setup_mac_fixed.sh" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/start-all (1).sh" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/style_option_b.sh" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/update-broker-accounts-chart.sh" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/update-brokeraccounts.sh" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -34,6 +81,9 @@
   &quot;associatedIndex&quot;: 3
 }</component>
   <component name="ProjectId" id="2x6dS4s4n3xJZulOcAs2EU0x8by" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -54,7 +104,7 @@
     "nodejs_package_manager_path": "npm",
     "run.code.analysis.last.selected.profile": "pProject Default",
     "settings.editor.selected.configurable": "project.propVCSSupport.DirectoryMappings",
-    "ts.external.directory.path": "/Users/marcelstuivenberg/Library/Mobile Documents/com~apple~CloudDocs/Ai Crypto Analyer/frontend/node_modules/typescript/lib",
+    "ts.external.directory.path": "/Users/marcelstuivenberg/Library/Mobile Documents/com~apple~CloudDocs/AiCA/frontend/node_modules/typescript/lib",
     "vue.rearranger.settings.migration": "true"
   },
   "keyToStringList": {

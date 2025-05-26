@@ -23,8 +23,6 @@ const navItems = [
   { path: "/settings", title: "Settings", type: "link" },
   { path: "/upgrade", title: "Upgrade", type: "link" },
   { path: "/billing", title: "Billing", type: "link" },
-  { title: "TEST", type: "section" },
-  { path: "/experimental-bot", title: "Experimental Bot", type: "link" },
 ];
 
 export default function Sidebar() {

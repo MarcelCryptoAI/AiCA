@@ -19,7 +19,6 @@ import Watchlists from './pages/Watchlists';
 import Settings from './pages/Settings';
 import Upgrade from './pages/Upgrade';
 import Billing from './pages/Billing';
-import ExperimentalBot from './pages/ExperimentalBot';
 
 export default function App() {
   return (
@@ -47,7 +46,6 @@ export default function App() {
             <Route path="/settings" element={<Settings />} />
             <Route path="/upgrade" element={<Upgrade />} />
             <Route path="/billing" element={<Billing />} />
-            <Route path="/experimental-bot" element={<ExperimentalBot />} />
           </Routes>
         </div>
       </div>
